@@ -29,7 +29,7 @@ def get_db_connection():
 def get_users():
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("SELECT * FROM customer")
+    cursor.execute("SELECT * FROM users")
     users = cursor.fetchall()
     cursor.close()
     conn.close()
@@ -41,8 +41,8 @@ def add_user():
     conn = get_db_connection()
     cursor = conn.cursor()
         # Insert user data into the database
-    cursor.execute("INSERT INTO customer (username, email) VALUES (%s, %s)", 
-                       (data['name'], data['email']))
+    cursor.execute("INSERT INTO users (username, email, password) VALUES (%s, %s, %s)", 
+                       (data['name'], data['email'], data['password']))
     conn.commit()  # Commit the transaction
     cursor.close()
     conn.close()
@@ -53,8 +53,8 @@ def update_user(user_id):
     data = request.json
     conn = get_db_connection()
     cursor = conn.cursor()
-    cursor.execute("UPDATE customer SET name = %s, email = %s WHERE user_id = %s",
-                   (data['name'], data['quantity'], user_id))
+    cursor.execute("UPDATE users SET name = %s, email = %s WHERE user_id = %s",
+                   (data['name'], data['email'], user_id))
     conn.commit()
     cursor.close()
     conn.close()
@@ -66,7 +66,7 @@ def delete_user(user_id):
     conn = get_db_connection()
     cursor = conn.cursor()
 
-    cursor.execute("DELETE FROM customer WHERE user_id = %s", (user_id,))
+    cursor.execute("DELETE FROM users WHERE user_id = %s", (user_id,))
     conn.commit()  # Commit the transaction
     cursor.close()
     conn.close()
