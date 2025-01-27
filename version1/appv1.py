@@ -123,10 +123,10 @@ def get_orders():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
     cursor.execute("""
-        SELECT orders.order_id, customer.username AS user_name, products.product_name AS product_name, 
+        SELECT orders.order_id, users.name AS user_name, products.name AS product_name, 
                orders.quantity, orders.order_date 
         FROM orders
-        JOIN customer ON orders.user_id = customer.user_id
+        JOIN users ON orders.user_id = users.user_id
         JOIN products ON orders.product_id = products.product_id
     """)
     orders = cursor.fetchall()
@@ -160,4 +160,4 @@ def update_order(order_id):
     
         
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',port=5000,debug=True)
